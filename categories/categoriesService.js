@@ -7,11 +7,19 @@ class CategoriesService {
     }
 
     async getAll() {
-        await this.categoryModel.findAll(); // select * from categories
+        return await this.categoryModel.findAll(); // select * from categories
     }
 
     async create(category) {
         return await this.categoryModel.create({...category});
+    }
+
+    async deleteOne(id) {
+        return await this.categoryModel.destroy({where: {id}})
+    }
+
+    async update(id, category) {
+        return await this.categoryModel.update({...category}, {where: {id}})
     }
 }
 
