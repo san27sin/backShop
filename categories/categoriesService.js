@@ -21,6 +21,10 @@ class CategoriesService {
     async update(id, category) {
         return await this.categoryModel.update({...category}, {where: {id}})
     }
+
+    async getOne(id) {
+        return await this.categoryModel.findOne({where: {id}})
+    }
 }
 
 module.exports = new CategoriesService(Model.Categories);
