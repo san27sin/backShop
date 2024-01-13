@@ -7,7 +7,11 @@ class CategoriesService {
     }
 
     async getAll() {
-        return await this.categoryModel.findAll(); // select * from categories
+        return await this.categoryModel.findAll({
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        }); // select * from categories
     }
 
     async create(category) {
@@ -20,10 +24,6 @@ class CategoriesService {
 
     async update(id, category) {
         return await this.categoryModel.update({...category}, {where: {id}})
-    }
-
-    async getOne(id) {
-        return await this.categoryModel.findOne({where: {id}})
     }
 }
 
