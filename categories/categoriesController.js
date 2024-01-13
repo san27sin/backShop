@@ -45,8 +45,7 @@ class CategoriesController {
     }
 
     async update(req, res) {
-        const { id } = req.params
-        const { title, url } = req.body
+        const { id, title, url } = req.body
 
         try {
             if (isNaN(id))
@@ -60,20 +59,6 @@ class CategoriesController {
 
             const upCategory = await categoriesService.update(id, { title, url })
             res.status(200).json(upCategory)
-        } catch (e) {
-            res.status(500).json({message: e.message})
-        }
-    }
-
-    async getOne(req, res) {
-        const { id } = req.params
-
-        try {
-            if (isNaN(id))
-                throw new Error('Id is not a number')
-
-            const category = await categoriesService.getOne(id)
-            res.status(200).json(category)
         } catch (e) {
             res.status(500).json({message: e.message})
         }
