@@ -1,21 +1,21 @@
-const categoriesService = require('./categoriesService');
+const advantagesService = require('./advantagesService')
 
-class CategoriesController {
-    constructor(categoriesService) {
-        this.categoriesService = categoriesService;
+class AdvantagesController {
+    constructor(advantagesService) {
+        this.advantagiesService = advantagesService
     }
 
     async getAll(req, res) {
         try {
-            const categories = await this.categoriesService.getAll();
-            res.json(categories);
+            const advantages = await this.advantagiesService.getAll()
+            res.json(advantages)
         } catch (e) {
-            res.status(500).json({message: e.message});
+            res.status(500).json({message: e.message})
         }
     }
 
     async create(req, res) {
-        const { title, url } = req.body
+        const { title, url, description } = req.body
         try {
             if (title.length < 3 || title.length > 15)
                 throw new Error('Число символов меньше 3 или больше 15!')
@@ -23,8 +23,11 @@ class CategoriesController {
             if (!/^(http|https):\/\/([\w-]+(\.[\w-]+)+)(\/[\w-./?%&=]*)?$/.test(url))
                 throw new Error('Ссылка не валидна!')
 
-            const category = await categoriesService.create({title, url})
-            res.status(200).json(category)
+            if (description.length < 10 || description.length > 200)
+                throw new Error('Описание содержит меньше 10 или больше 200 симолов!')
+
+            const advantage = await advantagesService.create({title, url, description})
+            res.status(200).json(advantage)
         } catch (e) {
             res.status(500).json({message: e.message})
         }
@@ -37,15 +40,15 @@ class CategoriesController {
             if (isNaN(id))
                 throw new Error('Id is not a number')
 
-            const delCategory = await categoriesService.deleteOne(id)
-            res.status(200).json(delCategory)
+            const delAdvantage = await advantagesService.deleteOne(id)
+            res.status(200).json(delAdvantage)
         } catch (e) {
             res.status(500).json({message: e.message})
         }
     }
 
     async update(req, res) {
-        const { id, title, url } = req.body
+        const { id, title, url, description } = req.body
 
         try {
             if (isNaN(id))
@@ -57,12 +60,15 @@ class CategoriesController {
             if (!/^(http|https):\/\/([\w-]+(\.[\w-]+)+)(\/[\w-./?%&=]*)?$/.test(url))
                 throw new Error('Ссылка не валидна!')
 
-            const upCategory = await categoriesService.update(id, { title, url })
-            res.status(200).json(upCategory)
+            if (description.length < 10 || description.length > 200)
+                throw new Error('Описание содержит меньше 10 или больше 200 симолов!')
+
+            const upAdvantage = await advantagesService.update(id, { title, url, description})
+            res.status(200).json(upAdvantage)
         } catch (e) {
             res.status(500).json({message: e.message})
         }
     }
 }
 
-module.exports = new CategoriesController(categoriesService);
+module.exports = new AdvantagesController(advantagesService)
