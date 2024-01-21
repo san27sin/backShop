@@ -2,12 +2,12 @@ const advantagesService = require('./advantagesService')
 
 class AdvantagesController {
     constructor(advantagesService) {
-        this.advantagiesService = advantagesService
+        this.advantagesService = advantagesService
     }
 
     async getAll(req, res) {
         try {
-            const advantages = await this.advantagiesService.getAll()
+            const advantages = await this.advantagesService.getAll()
             res.json(advantages)
         } catch (e) {
             res.status(500).json({message: e.message})
@@ -26,7 +26,7 @@ class AdvantagesController {
             if (description.length < 10 || description.length > 200)
                 throw new Error('Описание содержит меньше 10 или больше 200 симолов!')
 
-            const advantage = await advantagesService.create({title, url, description})
+            const advantage = await this.advantagesService.create({title, url, description})
             res.status(200).json(advantage)
         } catch (e) {
             res.status(500).json({message: e.message})
@@ -40,7 +40,7 @@ class AdvantagesController {
             if (isNaN(id))
                 throw new Error('Id is not a number')
 
-            const delAdvantage = await advantagesService.deleteOne(id)
+            const delAdvantage = await this.advantagesService.deleteOne(id)
             res.status(200).json(delAdvantage)
         } catch (e) {
             res.status(500).json({message: e.message})
@@ -63,7 +63,7 @@ class AdvantagesController {
             if (description.length < 10 || description.length > 200)
                 throw new Error('Описание содержит меньше 10 или больше 200 симолов!')
 
-            const upAdvantage = await advantagesService.update(id, { title, url, description})
+            const upAdvantage = await this.advantagesService.update(id, { title, url, description})
             res.status(200).json(upAdvantage)
         } catch (e) {
             res.status(500).json({message: e.message})
