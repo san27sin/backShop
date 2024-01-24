@@ -13,16 +13,16 @@ class PhoneService {
         })
     }
 
-    async create(phoneNumber){
-        return await this.phoneNumberModel.create({...phoneNumber})
+    async create(phone){
+        return await this.phoneNumberModel.create({...phone})
     }
 
     async deleteOne(id) {
         return await this.phoneNumberModel.destroy({where: {id}})
     }
 
-    async update(id, phoneNumber){
-        return await this.phoneNumberModel.update({...phoneNumber}, {where: {id}})
+    async update(id, phone){
+        return await this.phoneNumberModel.update({...phone}, {where: {id}})
     }
 }
 

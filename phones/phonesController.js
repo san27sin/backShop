@@ -19,7 +19,7 @@ class PhonesController {
             if (!/^((\+7|7|8)+([0-9]){10})$/.test(phone))
                 throw new Error('Некорректный номер телефона!')
 
-            const phoneNumber = this.phonesService.create({ phone })
+            const phoneNumber = await this.phonesService.create({ phone })
             res.status(200).json(phoneNumber)
         } catch (e) {
             res.status(500).json({ message: e.message })
