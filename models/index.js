@@ -52,10 +52,21 @@ const Users = sequelize.define('users', {
     password: {type: DataTypes.STRING}
 })
 
+const Tokens = sequelize.define('tokens', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    refreshToken: {type: DataTypes.STRING, unique: true},
+    userId: {type: DataTypes.INTEGER}
+})
+
+// Создаем связи между моделями
+Users.hasOne(Tokens, {foreignKey: 'userId'})
+Tokens.belongsTo(Users, {foreignKey: 'userId'})
+
 module.exports = {
     Categories,
     Advantages,
     PhoneNumbers,
     SocialNetwork,
-    Users
+    Users,
+    Tokens
 }
