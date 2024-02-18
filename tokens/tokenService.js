@@ -17,9 +17,13 @@ class TokenService {
         }
     }
 
-    validateRefreshToken(refreshToken) {
+    validateAccessToken(token) {
+        return jwt.verify(token, 'san27sinAccess', )
+    }
+
+    validateRefreshToken(token) {
         try {
-            return this.jwtService.verify(refreshToken, 'san27sinRefresh')
+            return this.jwtService.verify(token, 'san27sinRefresh')
         } catch (e) {
             return { message: e.message}
         }
