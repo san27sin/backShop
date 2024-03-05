@@ -59,6 +59,10 @@ class AuthController {
             res.status(403).json({message: 'deny'})
         }
     }
+
+    async setPassword(req, res) {
+        // TODO написать логику
+    }
 }
 
 module.exports = new AuthController(authService, bcrypt, tokenService)
