@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "1967",
+    "database": "crm-flowers",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}

@@ -29,6 +29,10 @@ class AuthController {
 
     async login (req, res) {
         const {email, password} = req.body
+
+        if (!email || !password)
+            return res.status(400).json({message: "Пароль или email отстутствуют"})
+
         const candidate = await this.authService.getUserByEmail(email)
 
         if (!candidate) {
