@@ -1,7 +1,9 @@
 const authService = require('./authService')
 const bcrypt = require('bcrypt')
 const tokenService = require('../tokens/tokenService')
-const nodemailer = require('nodemailer')
+const transporter = require('../config/nodemailer')
+const { v4: uuidv4 } = require('uuid')
+const {response} = require("express");
 
 class AuthController {
     constructor(authService, bcrypt, tokenService) {
@@ -21,7 +23,22 @@ class AuthController {
 
         const hashPassword = await this.bcrypt.hash(password, 5)
 
+        const activationKey = uuidv4()
+
         const tokens = await this.authService.register({email, nickname, password: hashPassword})
+
+        transporter.sendMail({
+            from: 'coder27sinitsyn@gmail.com',
+            to: email,
+            subject: 'Ссылка активации пользователя',
+            html: `<div><h1>Ваша ссылка активации регистрации</h1><a href="http://localhost:8080/activate/${activationKey}">Ссылка для активации</a></div>`
+        }, (error, info) => {
+            if (error) {
+                response.json({ message: 'Произошла ошибка ' + error })
+            } else {
+                response.json({ message: 'Регистрация прошла успешно, перейдите по ссылке емайле' })
+            }
+        })
 
         res.cookie('refreshToken', tokens.refreshToken)
         return res.status(200).json(tokens)
@@ -58,6 +75,12 @@ class AuthController {
         catch (e) {
             res.status(403).json({message: 'deny'})
         }
+    }
+
+    async activateUser(req, res) {
+        const { key } = req.params
+        const activatedUser = await this.authService.activateUser(key)
+        res.json(activatedUser)
     }
 
     async setPassword(req, res) {

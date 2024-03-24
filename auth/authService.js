@@ -68,6 +68,10 @@ class AuthService {
     async getUserByEmail(email) {
         return await this.userService.getUserByEmail(email)
     }
+
+    async activateUser(key) {
+        return this.userService.activateUser(key)
+    }
 }
 
 module.exports = new AuthService(userService, jwt, tokensService)
