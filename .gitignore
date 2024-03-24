@@ -1,23 +1,31 @@
-.DS_Store
-node_modules
-/dist
+# Папка с зависимостями npm
+node_modules/
 
+# Файлы, содержащие конфиденциальные данные (например, пароли, ключи доступа и т. д.)
+.env
 
-# local env files
-.env.local
-.env.*.local
+# Файлы журналов
+logs/
+*.log
 
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+# Временные файлы
+*.tmp
+*.temp
 
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Кэшированные файлы
+.cache/
+
+# Файлы сборки
+/build/
+/public/build/
+/dist/
+/out/
+
+# Игнорировать файлы конфигурации IDE
+.idea/
+.vscode/
+
+# Игнорировать файлы локализации
+*.pot
+*.mo
+*.po
