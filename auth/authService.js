@@ -14,7 +14,8 @@ class AuthService {
         const userDto = {
             id: createdUser.id,
             email: createdUser.email,
-            nickname: createdUser.nickname
+            nickname: createdUser.nickname,
+            activationKey: createdUser.activationKey
         }
         const tokens = this.tokenService.generateTokens({...userDto})
         await this.tokenService.saveToken({userId: userDto.id, token: tokens.refreshToken})

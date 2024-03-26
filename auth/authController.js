@@ -25,7 +25,7 @@ class AuthController {
 
         const activationKey = uuidv4()
 
-        const tokens = await this.authService.register({email, nickname, password: hashPassword})
+        const tokens = await this.authService.register({email, nickname, password: hashPassword, activationKey})
 
         transporter.sendMail({
             from: 'coder27sinitsyn@gmail.com',
@@ -54,7 +54,7 @@ class AuthController {
 
         const isCompare = await this.bcrypt.compare(password, candidate.password)
 
-        if (candidate && isCompare) {
+        if (candidate && isCompare && candidate.isActivated) {
             const token = await this.authService.login(candidate)
             res.cookie('refreshToken', token.refreshToken).status(200).json(token)
         }
