@@ -18,7 +18,7 @@ class AuthService {
             activationKey: createdUser.activationKey
         }
         const tokens = this.tokenService.generateTokens({...userDto})
-        await this.tokenService.saveToken({userId: userDto.id, token: tokens.refreshToken})
+        await this.tokenService.saveToken({userId: userDto.id, refreshToken: tokens.refreshToken})
         return {
             ...tokens,
             user: userDto
@@ -35,7 +35,7 @@ class AuthService {
         }
 
         const tokens = this.tokenService.generateTokens(({...userDto}))
-        await this.tokenService.saveToken({userId: userDto.id, token: tokens.refreshToken})
+        await this.tokenService.saveToken({userId: userDto.id, refreshToken: tokens.refreshToken})
         return {
             ...tokens,
             user: userDto
@@ -59,7 +59,7 @@ class AuthService {
         }
 
         const tokens = this.tokenService.generateTokens({...userDto})
-        await this.tokenService.saveToken({userId: userDto.id, token: tokens.refreshToken})
+        await this.tokenService.saveToken({userId: userDto.id, refreshToken: tokens.refreshToken})
         return {
             ...tokens,
             user: userDto
