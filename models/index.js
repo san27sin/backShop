@@ -49,7 +49,9 @@ const Users = sequelize.define('users', {
     id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
     email: {type: DataTypes.STRING, unique: true},
     nickname: {type: DataTypes.STRING, unique: true},
-    password: {type: DataTypes.STRING}
+    password: {type: DataTypes.STRING},
+    isActivated: { type: DataTypes.BOOLEAN, defaultValue: false },
+    activationKey: { type: DataTypes.STRING }
 })
 
 const Tokens = sequelize.define('tokens', {

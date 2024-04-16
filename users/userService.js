@@ -20,6 +20,12 @@ class UserService {
     async getUserByEmail(email) {
         return await this.usersModel.findOne({where: {email}})
     }
+
+    async activateUser(key) {
+        const user = await this.usersModel.findOne({ where: { activationKey: key } })
+        await user.update({ isActivated: true })
+        return user
+    }
 }
 
 module.exports = new UserService(Model.Users)

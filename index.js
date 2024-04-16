@@ -3,8 +3,14 @@ const cors = require('cors'); // помогает нам выключить за
 const app = express();
 const sequelize = require('./config/db');
 const router = require('./routes');
+const corsOptions = {
+    origin: true, //included origin as true
+    credentials: true, //included credentials as true
+};
+const cookieParser = require('cookie-parser')
 
-app.use(cors());
+app.use(cookieParser())
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use('/', router);
 
