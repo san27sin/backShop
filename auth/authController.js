@@ -105,6 +105,17 @@ class AuthController {
         }
     }
 
+    async checkUser(req, res) {
+        try {
+            const authorizationHeader = req.headers.authorization
+            const token = authorizationHeader.split(' ')[1]
+            await this.tokenService.validateAccessToken(token)
+            res.json({status: 'ok'})
+        } catch (e) {
+            return res.status(401).json({message: 'Пользователь не авторизован'})
+        }
+    }
+
     async activateUser(req, res) {
         const { key } = req.params
         const activatedUser = await this.authService.activateUser(key)
@@ -118,7 +129,8 @@ class AuthController {
     }
 
     async logout(req, res) {
-        // обнулить куки
+        res.clearCookie('refreshToken') // бесконечное ожидание ответа
+        res.json({ message: 'logout прошел успешно!' })
     }
 }
 
