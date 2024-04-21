@@ -43,9 +43,9 @@ class AuthService {
 
     async refreshToken(refreshToken) {
         const userData = this.tokenService.validateRefreshToken(refreshToken)
-        const tokenFromDb = await this.tokenService.findOneRefreshToken(refreshToken)
+        //const tokenFromDb = await this.tokenService.findOneRefreshToken(refreshToken)
 
-        if (!userData || !tokenFromDb) {
+        if (userData.message) {
             throw new Error('Проблема с токеном')
         }
 
