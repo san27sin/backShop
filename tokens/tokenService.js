@@ -8,7 +8,7 @@ class TokenService {
     }
 
     generateTokens(payload) {
-        const accessToken = this.jwtService.sign(payload, 'san27sinAccess', {expiresIn: '5s'})
+        const accessToken = this.jwtService.sign(payload, 'san27sinAccess', {expiresIn: '2m'})
         const refreshToken = this.jwtService.sign(payload, 'san27sinRefresh', {expiresIn: '30d'})
 
         return {

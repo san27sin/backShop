@@ -93,7 +93,7 @@ class AuthController {
             const {refreshToken} = req.cookies
 
             if(!refreshToken) {
-                return res.status(401).json({message: 'Пользователь не авторизован'})
+                return res.status(403).json({message: 'Пользователь не авторизован'})
             }
             const data = await this.authService.refreshToken(refreshToken)
 
@@ -109,6 +109,30 @@ class AuthController {
         const { key } = req.params
         const activatedUser = await this.authService.activateUser(key)
         res.json(activatedUser)
+    }
+
+    async check(req, res) {
+        console.log(123)
+        try {
+            // Получаем заголовок авторизации, что-то по типу
+            // Bearer sdfkmwem34ij0t349jg09j0394j094
+            const authorizationHeader = req.headers?.authorization
+
+            // Получаем сам токен - sdfkmwem34ij0t349jg09j0394j094
+            const token = authorizationHeader?.split(' ')[1]
+
+            if (!token) {
+                return res.status(401).json({message: 'Пользователь не авторизован'})
+            }
+
+            // Делаем проверку на валидность и если токен невалидный
+            // выпадет ошибка, которую обрабатываем в блоке catch
+            await this.tokenService.validateAccessToken(token)
+
+            res.json({status: 'ok'})
+        } catch (e) {
+            return res.status(401).json({message: 'Пользователь не авторизован'})
+        }
     }
 
     async setPassword(req, res) {
