@@ -90,7 +90,7 @@ class AuthController {
 
     async refresh(req, res) {
         try {
-            const {refreshToken} = req.cookies
+            const { refreshToken } = req.cookies
 
             if(!refreshToken) {
                 return res.status(403).json({message: 'Пользователь не авторизован'})
