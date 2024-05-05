@@ -14,10 +14,11 @@ class AuthService {
         const userDto = {
             id: createdUser.id,
             email: createdUser.email,
-            nickname: createdUser.nickname
+            nickname: createdUser.nickname,
+            activationKey: createdUser.activationKey
         }
         const tokens = this.tokenService.generateTokens({...userDto})
-        await this.tokenService.saveToken({userId: userDto.id, token: tokens.refreshToken})
+        await this.tokenService.saveToken({userId: userDto.id, refreshToken: tokens.refreshToken})
         return {
             ...tokens,
             user: userDto
@@ -34,7 +35,7 @@ class AuthService {
         }
 
         const tokens = this.tokenService.generateTokens(({...userDto}))
-        await this.tokenService.saveToken({userId: userDto.id, token: tokens.refreshToken})
+        await this.tokenService.saveToken({userId: userDto.id, refreshToken: tokens.refreshToken})
         return {
             ...tokens,
             user: userDto
@@ -43,9 +44,9 @@ class AuthService {
 
     async refreshToken(refreshToken) {
         const userData = this.tokenService.validateRefreshToken(refreshToken)
-        const tokenFromDb = await this.tokenService.findOneRefreshToken(refreshToken)
+        //const tokenFromDb = await this.tokenService.findOneRefreshToken(refreshToken)
 
-        if (!userData || !tokenFromDb) {
+        if (userData.message) {
             throw new Error('Проблема с токеном')
         }
 
@@ -58,7 +59,7 @@ class AuthService {
         }
 
         const tokens = this.tokenService.generateTokens({...userDto})
-        await this.tokenService.saveToken({userId: userDto.id, token: tokens.refreshToken})
+        await this.tokenService.saveToken({userId: userDto.id, refreshToken: tokens.refreshToken})
         return {
             ...tokens,
             user: userDto
@@ -67,6 +68,10 @@ class AuthService {
 
     async getUserByEmail(email) {
         return await this.userService.getUserByEmail(email)
+    }
+
+    async activateUser(key) {
+        return this.userService.activateUser(key)
     }
 }
 

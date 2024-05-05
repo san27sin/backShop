@@ -1,4 +1,4 @@
-const {Sequelize} = require('sequelize');
+const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('crm-flowers', 'postgres', process.env.PASSWORD_DB, {
     host: "localhost",
